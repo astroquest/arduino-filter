@@ -1,14 +1,18 @@
 #include <LinearKalman.h>
 
-LinearKalman::LinearKalman(double cycle_time, double q, double r, double a, double b) {
+LinearKalman::LinearKalman(double cycle_time, double process_noise_cov, double measurement_noise_cov, double a, double b)
+    : q(process_noise_cov), r(measurement_noise_cov)
+{
     this->cycle_time = cycle_time;
-    this->q = q;
-    this->r = r;
 
+    init(a, b);
+}
+
+void LinearKalman::init(){}
+
+void LinearKalman::init(double a, double b) {
     coeffs[0] = a;
     coeffs[1] = b;
-
-    init()
 }
 
 double LinearKalman::predict(double action) {
